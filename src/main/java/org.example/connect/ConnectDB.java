@@ -1,4 +1,4 @@
-package connect;
+package org.example.connect;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,32 +31,25 @@ public class ConnectDB {
             e.printStackTrace();
         }
     }
-    public Connection getConnection (){
+
+    public Connection getConnection() {
         try {
             Class.forName("org.h2.Driver").getDeclaredConstructor().newInstance();
             setProperty();
             Connection conn = DriverManager.getConnection(host, login, password);
             return conn;
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-//        try (Connection conn = DriverManager.getConnection(host, login, password)) {
-//            setProperty();
-//            return conn;
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
         return null;
-    }
 
+    }
 }

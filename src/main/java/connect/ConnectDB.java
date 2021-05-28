@@ -1,0 +1,62 @@
+package connect;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
+public class ConnectDB {
+    private FileInputStream fis;
+    private Properties property = new Properties();
+    private String host;
+    private String login;
+    private String password;
+
+    private void setProperty() {
+        try {
+            fis = new FileInputStream("src/main/resources/config.properties");
+            property.load(fis);
+
+            host = property.getProperty("db.host");
+            login = property.getProperty("db.login");
+            password = property.getProperty("db.password");
+
+        } catch (FileNotFoundException e) {
+            System.err.println("ОШИБКА: Файл свойств отсуствует!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public Connection getConnection (){
+        try {
+            Class.forName("org.h2.Driver").getDeclaredConstructor().newInstance();
+            setProperty();
+            Connection conn = DriverManager.getConnection(host, login, password);
+            return conn;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+//        try (Connection conn = DriverManager.getConnection(host, login, password)) {
+//            setProperty();
+//            return conn;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+        return null;
+    }
+
+}

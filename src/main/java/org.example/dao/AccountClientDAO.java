@@ -48,7 +48,9 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
             accountForCustomer.setOpenDate(resultSet.getDate("OPEN_DATE"));
             return accountForCustomer;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            System.out.println("Ошибка SQL : "+throwables.getErrorCode());
+            //throwables.printStackTrace();
+
         }
         return null;
     }
@@ -57,5 +59,18 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
     public AccountForCustomer getString(String string) {
 
         return null;
+    }
+
+    @Override
+    public void update(AccountForCustomer entity) {
+        String sql = "UPDATE BANK_ACCOUNT_CLIENT SET BALANCE = ?, ACTIVE = ? WHERE ID_ACCOUNT_CL = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1,entity.getBalance());
+            preparedStatement.setBoolean(2,entity.getActive());
+            preparedStatement.setLong(3,entity.getIdAccountCl());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

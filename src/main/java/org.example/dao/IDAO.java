@@ -13,4 +13,6 @@ public interface IDAO<E extends Serializable> {
     E getIdAccount(Long id);
 
     E getString(String string);
+
+    void update(E entity);
 }

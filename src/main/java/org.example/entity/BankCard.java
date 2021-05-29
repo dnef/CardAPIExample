@@ -1,16 +1,26 @@
 package org.example.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class BankCard implements Serializable {
 
+    @JsonProperty("id")
     private long idCard;
+    @JsonProperty("cardNumber")
     private String cardNumber;
+    @JsonProperty("idAccount")
     private long idAccountClient;
+    @JsonProperty("active")
     private Boolean active;
+    @JsonProperty("date_open")
     private java.sql.Date openDate;
 
+    public BankCard() {
+    }
 
     public long getIdCard() {
         return idCard;
@@ -19,7 +29,6 @@ public class BankCard implements Serializable {
     public void setIdCard(long idCard) {
         this.idCard = idCard;
     }
-
 
     public String getCardNumber() {
         return cardNumber;
@@ -56,4 +65,13 @@ public class BankCard implements Serializable {
         this.openDate = openDate;
     }
 
+    @Override
+    public String toString() {
+        return "BankCard{" +
+                "cardNumber='" + cardNumber + '\'' +
+                ", idAccountClient=" + idAccountClient +
+                ", active=" + active +
+                ", openDate=" + openDate +
+                '}';
+    }
 }

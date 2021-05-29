@@ -5,11 +5,9 @@ import org.example.connect.ConnectDB;
 import org.example.connect.ConnectDB;
 import org.example.dao.IDAO;
 import org.example.entity.BankCard;
+import org.h2.jdbc.JdbcSQLException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +47,13 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setLong(2, entity.getIdAccountClient());
             preparedStatement.setBoolean(3, entity.getActive());
             preparedStatement.setDate(4, entity.getOpenDate());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            preparedStatement.executeUpdate();
+        }catch (SQLException throwables) {
+            //throwables.printStackTrace();
+            //System.out.println(throwables.getMessage());
+            if (throwables.getErrorCode() == 23505){
+                System.out.println("Карта существует №: "+entity.getCardNumber());
+            }
         }
 
     }
@@ -90,5 +93,10 @@ public class CardDAO implements IDAO<BankCard> {
 
 
         return null;
+    }
+
+    @Override
+    public void update(BankCard entity) {
+
     }
 }

@@ -14,12 +14,13 @@ public class HandlerNewCard implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String requestParamValue=null;
+        //String requestParamValue=null;
         if ("POST".equals(httpExchange.getRequestMethod())) {
-            requestParamValue = handleGetRequest(httpExchange);
+            //requestParamValue = handleGetRequest(httpExchange);
+            handleResponse(httpExchange);
 
         }
-        handleResponse(httpExchange);
+        //handleResponse(httpExchange);
     }
 
     private void handleResponse(HttpExchange httpExchange) {
@@ -49,7 +50,6 @@ public class HandlerNewCard implements HttpHandler {
         return httpExchange.
                 getRequestURI()
                 .toString()
-                .split("\\?")[1]
-                .split("=")[1];
+                .split("\\[")[1];
     }
 }

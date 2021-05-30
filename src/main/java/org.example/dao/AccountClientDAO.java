@@ -48,7 +48,7 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
             accountForCustomer.setOpenDate(resultSet.getDate("OPEN_DATE"));
             return accountForCustomer;
         } catch (SQLException throwables) {
-            System.out.println("Ошибка SQL : "+throwables.getErrorCode());
+            System.out.println("Ошибка SQL : " + throwables.getErrorCode());
             //throwables.printStackTrace();
 
         }
@@ -56,8 +56,26 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
     }
 
     @Override
-    public AccountForCustomer getString(String string) {
+    public AccountForCustomer getByStringField(String numberAccount) {
 
+        String sql = "SELECT * FROM BANK_ACCOUNT_CLIENT WHERE ACCOUNT_NUMBER= ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, numberAccount);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            AccountForCustomer accountForCustomer = new AccountForCustomer();
+            accountForCustomer.setIdAccountCl(resultSet.getLong("ID_ACCOUNT_CL"));
+            accountForCustomer.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
+            accountForCustomer.setIdClient(resultSet.getLong("ID_CLIENT"));
+            accountForCustomer.setBalance(resultSet.getLong("BALANCE"));
+            accountForCustomer.setActive(resultSet.getBoolean("ACTIVE"));
+            accountForCustomer.setOpenDate(resultSet.getDate("OPEN_DATE"));
+            return accountForCustomer;
+        } catch (SQLException throwables) {
+            System.out.println("Ошибка SQL : " + throwables.getErrorCode());
+            //throwables.printStackTrace();
+
+        }
         return null;
     }
 
@@ -65,9 +83,9 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
     public void update(AccountForCustomer entity) {
         String sql = "UPDATE BANK_ACCOUNT_CLIENT SET BALANCE = ?, ACTIVE = ? WHERE ID_ACCOUNT_CL = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1,entity.getBalance());
-            preparedStatement.setBoolean(2,entity.getActive());
-            preparedStatement.setLong(3,entity.getIdAccountCl());
+            preparedStatement.setLong(1, entity.getBalance());
+            preparedStatement.setBoolean(2, entity.getActive());
+            preparedStatement.setLong(3, entity.getIdAccountCl());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

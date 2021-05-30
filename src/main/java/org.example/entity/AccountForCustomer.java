@@ -1,8 +1,10 @@
 package org.example.entity;
 
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.io.Serializable;
 public class AccountForCustomer implements Serializable {
 
     private long idAccountCl;

@@ -1,13 +1,12 @@
 package org.example.dao;
 
-import org.example.entity.BankCard;
 import org.example.connect.ConnectDB;
-import org.example.connect.ConnectDB;
-import org.example.dao.IDAO;
 import org.example.entity.BankCard;
-import org.h2.jdbc.JdbcSQLException;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class CardDAO implements IDAO<BankCard> {
                 BankCard bankCard = new BankCard();
                 bankCard.setIdCard(resultSet.getInt("ID_CARD"));
                 bankCard.setCardNumber(resultSet.getString("CARD_NUMBER"));
-                bankCard.setIdAccountClient(resultSet.getInt("ID_ACCOUNT_CLIENT"));
+                bankCard.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
                 bankCard.setActive(resultSet.getBoolean("ACTIVE"));
                 bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
                 bankCardList.add(bankCard);
@@ -44,15 +43,15 @@ public class CardDAO implements IDAO<BankCard> {
         String sql = "INSERT INTO bank_card VALUES (null,?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, entity.getCardNumber());
-            preparedStatement.setLong(2, entity.getIdAccountClient());
+            preparedStatement.setString(2, entity.getAccountNumber());
             preparedStatement.setBoolean(3, entity.getActive());
             preparedStatement.setDate(4, entity.getOpenDate());
             preparedStatement.executeUpdate();
-        }catch (SQLException throwables) {
+        } catch (SQLException throwables) {
             //throwables.printStackTrace();
             //System.out.println(throwables.getMessage());
-            if (throwables.getErrorCode() == 23505){
-                System.out.println("Карта существует №: "+entity.getCardNumber());
+            if (throwables.getErrorCode() == 23505) {
+                System.out.println("Карта существует №: " + entity.getCardNumber());
             }
         }
 
@@ -74,16 +73,16 @@ public class CardDAO implements IDAO<BankCard> {
     }
 
     @Override
-    public BankCard getString(String string) {
-        String sql = "SELECT * FROM bank_card WHERE CARD_NUMBER = ?";
+    public BankCard getByStringField(String cardNumber) {
+        String sql = "SELECT * FROM BANK_CARD WHERE CARD_NUMBER = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, string);
+            preparedStatement.setString(1, cardNumber);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             BankCard bankCard = new BankCard();
             bankCard.setIdCard(resultSet.getLong("ID_CARD"));
             bankCard.setCardNumber(resultSet.getString("CARD_NUMBER"));
-            bankCard.setIdAccountClient(resultSet.getLong("ID_ACCOUNT_CLIENT"));
+            bankCard.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
             bankCard.setActive(resultSet.getBoolean("ACTIVE"));
             bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
             return bankCard;

@@ -12,7 +12,7 @@ public interface IDAO<E extends Serializable> {
 
     E getIdAccount(Long id);
 
-    E getString(String string);
+    E getByStringField(String stringValue);
 
     void update(E entity);
 }

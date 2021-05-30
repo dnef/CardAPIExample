@@ -17,7 +17,7 @@ public class ServiceCard {
     }
     public void addCardForAccaunt(BankCard bankCard){
         try {
-            Long accountId = accountClientDAO.getIdAccount(bankCard.getIdAccountClient()).getIdAccountCl();
+            String  accountNumber = accountClientDAO.getByStringField(bankCard.getAccountNumber()).getAccountNumber();
         }catch (NullPointerException e){
             System.out.println("Счет не существует");
         }
@@ -27,11 +27,11 @@ public class ServiceCard {
         return cardDAO.getAll();
     }
     public void addBalanceForCard(Long cash,String  cartNumber){
-        AccountForCustomer accountForCustomer = accountClientDAO.getIdAccount(cardDAO.getString(cartNumber).getIdAccountClient());
+        AccountForCustomer accountForCustomer = accountClientDAO.getByStringField(cardDAO.getByStringField(cartNumber).getAccountNumber());
         accountForCustomer.setBalance(cash);
         accountClientDAO.update(accountForCustomer);
     }
     public Long getBalanceAccountForCard(String cartNumber) {
-        return accountClientDAO.getIdAccount(cardDAO.getString(cartNumber).getIdAccountClient()).getBalance();
+        return accountClientDAO.getByStringField(cardDAO.getByStringField(cartNumber).getAccountNumber()).getBalance();
     }
 }

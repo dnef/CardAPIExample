@@ -10,7 +10,7 @@ import org.example.service.ServiceCard;
 import java.io.*;
 import java.util.List;
 
-public class NewCard implements HttpHandler {
+public class HandlerNewCard implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {

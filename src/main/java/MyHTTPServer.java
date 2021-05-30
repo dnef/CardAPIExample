@@ -1,7 +1,7 @@
 import com.sun.net.httpserver.HttpServer;
 import org.example.HandlerAllCard;
 import org.example.HandlerBalance;
-import org.example.NewCard;
+import org.example.HandlerNewCard;
 
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class MyHTTPServer {
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 0);
-            server.createContext("/apiCard/newCard", new NewCard());
+            server.createContext("/apiCard/newCard", new HandlerNewCard());
             server.createContext("/apiCard/all", new HandlerAllCard());
             server.createContext("/apiCard/balance", new HandlerBalance());
 

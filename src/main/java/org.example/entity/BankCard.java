@@ -1,10 +1,11 @@
 package org.example.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
-
+@JsonAutoDetect
 public class BankCard implements Serializable {
 
     @JsonProperty("id")

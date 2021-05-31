@@ -9,10 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class CardDAO implements IDAO<BankCard> {
     Connection connection;
-
+    Logger logger = Logger.getLogger(CardDAO.class.getName());
     public CardDAO() {
         this.connection = new ConnectDB().getConnection();
     }
@@ -31,6 +32,7 @@ public class CardDAO implements IDAO<BankCard> {
                 bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
                 bankCardList.add(bankCard);
             }
+            logger.info("DAO getAllCard run");
             return bankCardList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -47,6 +49,7 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setBoolean(3, entity.getActive());
             preparedStatement.setDate(4, entity.getOpenDate());
             preparedStatement.executeUpdate();
+            logger.info("DAO addCard run");
         } catch (SQLException throwables) {
             //throwables.printStackTrace();
             //System.out.println(throwables.getMessage());
@@ -85,9 +88,13 @@ public class CardDAO implements IDAO<BankCard> {
             bankCard.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
             bankCard.setActive(resultSet.getBoolean("ACTIVE"));
             bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
+            logger.info("DAO getCardByCardNumber run");
             return bankCard;
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            //throwables.printStackTrace();
+            if (throwables.getErrorCode() == 2000){
+                System.out.println("Карта не существует");
+            }
         }
 
 

@@ -34,4 +34,5 @@ public class ServiceCard {
     public Long getBalanceAccountForCard(String cartNumber) {
         return accountClientDAO.getByStringField(cardDAO.getByStringField(cartNumber).getAccountNumber()).getBalance();
     }
+
 }

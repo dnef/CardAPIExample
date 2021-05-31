@@ -1,4 +1,4 @@
-package org.example;
+package org.example.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +39,11 @@ public class HandlerNewCard implements HttpHandler {
             for (BankCard card:bankCardList1){
                 serviceCard.addCardForAccaunt(card);
             }
+            String ok = "Cards added";
+            httpExchange.sendResponseHeaders(200,ok.length());
+            OutputStream output = httpExchange.getResponseBody();
+            output.write(ok.getBytes());
+            output.flush();
             httpExchange.close();
         } catch (IOException e) {
             e.printStackTrace();

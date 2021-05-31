@@ -1,4 +1,4 @@
-package org.example;
+package org.example.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;

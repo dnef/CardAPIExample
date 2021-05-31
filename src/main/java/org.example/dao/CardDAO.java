@@ -72,6 +72,26 @@ public class CardDAO implements IDAO<BankCard> {
 
     @Override
     public BankCard getIdAccount(Long id) {
+        String sql = "SELECT * FROM BANK_CARD WHERE ID_CARD = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            BankCard bankCard = new BankCard();
+            bankCard.setIdCard(resultSet.getLong("ID_CARD"));
+            bankCard.setCardNumber(resultSet.getString("CARD_NUMBER"));
+            bankCard.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
+            bankCard.setActive(resultSet.getBoolean("ACTIVE"));
+            bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
+            logger.info("DAO getCardByCardNumber run");
+            return bankCard;
+        } catch (SQLException throwables) {
+            //throwables.printStackTrace();
+            logger.info(throwables.toString());
+            if (throwables.getErrorCode() == 2000) {
+                System.out.println("Карта не существует");
+            }
+        }
         return null;
     }
 
@@ -92,17 +112,31 @@ public class CardDAO implements IDAO<BankCard> {
             return bankCard;
         } catch (SQLException throwables) {
             //throwables.printStackTrace();
+            logger.info(throwables.toString());
             if (throwables.getErrorCode() == 2000){
                 System.out.println("Карта не существует");
             }
         }
-
-
         return null;
     }
 
     @Override
     public void update(BankCard entity) {
-
+        String sql = "UPDATE BANK_CARD SET ID_CARD=null, CARD_NUMBER = ?,ACCOUNT_NUMBER=?,ACTIVE=?,OPEN_DATE=? WHERE ID_CARD=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, entity.getCardNumber());
+            preparedStatement.setString(2, entity.getAccountNumber());
+            preparedStatement.setBoolean(3, entity.getActive());
+            preparedStatement.setDate(4, entity.getOpenDate());
+            preparedStatement.setLong(5,entity.getIdCard());
+            preparedStatement.executeUpdate();
+            logger.info("DAO updateCard run");
+        } catch (SQLException throwables) {
+            //throwables.printStackTrace();
+            //System.out.println(throwables.getMessage());
+            if (throwables.getErrorCode() == 2000) {
+                System.out.println("Карта отсутствует №: " + entity.getCardNumber());
+            }
+        }
     }
 }

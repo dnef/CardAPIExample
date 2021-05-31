@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class ConnectDB {
     private FileInputStream fis;
@@ -15,6 +16,7 @@ public class ConnectDB {
     private String host;
     private String login;
     private String password;
+    Logger logger = Logger.getLogger(ConnectDB.class.getName());
 
     private void setProperty() {
         try {
@@ -24,7 +26,7 @@ public class ConnectDB {
             host = property.getProperty("db.host");
             login = property.getProperty("db.login");
             password = property.getProperty("db.password");
-
+            logger.info("Property read");
         } catch (FileNotFoundException e) {
             System.err.println("ОШИБКА: Файл свойств отсуствует!");
         } catch (IOException e) {
@@ -37,6 +39,7 @@ public class ConnectDB {
             Class.forName("org.h2.Driver").getDeclaredConstructor().newInstance();
             setProperty();
             Connection conn = DriverManager.getConnection(host, login, password);
+            logger.info("Connection databace...");
             return conn;
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();

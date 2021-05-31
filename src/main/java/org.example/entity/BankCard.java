@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.sql.Date;
+
 @JsonAutoDetect
 public class BankCard implements Serializable {
 
@@ -20,6 +22,14 @@ public class BankCard implements Serializable {
     private java.sql.Date openDate;
 
     public BankCard() {
+    }
+
+    public BankCard(long idCard, String cardNumber, String accountNumber, Boolean active, Date openDate) {
+        this.idCard = idCard;
+        this.cardNumber = cardNumber;
+        this.accountNumber = accountNumber;
+        this.active = active;
+        this.openDate = openDate;
     }
 
     public long getIdCard() {

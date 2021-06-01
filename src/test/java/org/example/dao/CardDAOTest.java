@@ -1,32 +1,27 @@
 package org.example.dao;
 
-import junit.framework.TestCase;
-import org.example.connect.ConnectDB;
 import org.example.entity.BankCard;
-import org.example.service.ServiceCard;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class CardDAOTest {
     CardDAO cardDAO = new CardDAO();
     List<BankCard> bankCardList = new ArrayList<>();
+    BankCard bankCard5;
     @Before
     public void setUp() throws Exception {
-        BankCard bankCard1 = new BankCard(1l,"2635678946123467","12345367281835461728",true, Date.valueOf("2021-03-06"));
-        BankCard bankCard2 = new BankCard(2l,"2635678940023467","12345367281835461728",true, Date.valueOf("2021-04-05"));
-        BankCard bankCard3 = new BankCard(3l,"2630078946123467","89356726789534678356",true, Date.valueOf("2021-04-05"));
-        BankCard bankCard4 = new BankCard(4l,"2635000946123467","89356726755534678356",true, Date.valueOf("2021-04-05"));
-        BankCard bankCard5 = new BankCard(5l,"1111111111111113","89356726755534678356",true, Date.valueOf("2021-05-31"));
-        bankCardList.add(bankCard1);bankCardList.add(bankCard2);bankCardList.add(bankCard3);bankCardList.add(bankCard4);bankCardList.add(bankCard5);
+        BankCard bankCard1 = new BankCard(1l,"1111111111111111",1L,true, Date.valueOf("2021-03-06"));
+        BankCard bankCard2 = new BankCard(2l,"1111111111111112",2L,true, Date.valueOf("2021-04-05"));
+        BankCard bankCard3 = new BankCard(3l,"1111111111111113",3L,true, Date.valueOf("2021-04-05"));
+        BankCard bankCard4 = new BankCard(4l,"1111111111111114",3L,true, Date.valueOf("2021-04-05"));
+        bankCard5 = new BankCard(5l,"1111111111111115",3L,true, Date.valueOf("2021-04-05"));
+        bankCardList.add(bankCard1);bankCardList.add(bankCard2);bankCardList.add(bankCard3);bankCardList.add(bankCard4);
     }
 
     @After
@@ -40,21 +35,28 @@ public class CardDAOTest {
 
     @Test
     public void add() {
+        cardDAO.add(bankCard5);
+        Assert.assertEquals(cardDAO.getById(5L),bankCard5);
     }
 
     @Test
     public void remove() {
+        cardDAO.remove(bankCard5);
+        Assert.assertNull(cardDAO.getById(5L));
     }
 
     @Test
-    public void getIdAccount() {
+    public void getById() {
+        Assert.assertEquals(cardDAO.getById(bankCardList.get(0).getIdCard()),bankCardList.get(0));
     }
 
     @Test
     public void getByStringField() {
+        Assert.assertEquals(cardDAO.getByStringField(bankCardList.get(0).getCardNumber()),bankCardList.get(0));
     }
 
     @Test
     public void update() {
+
     }
 }

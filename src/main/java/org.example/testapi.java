@@ -18,11 +18,12 @@ public class testapi {
 
         BankCard bankCard= new BankCard();
         bankCard.setCardNumber("1111111111111113");
-        bankCard.setAccountNumber("89356726755534678356");
+        bankCard.setAccountNumberId(3L);
         bankCard.setActive(true);
         bankCard.setOpenDate(Date.valueOf(LocalDate.now()));
         serviceCard.addCardForAccaunt(bankCard);
         System.out.println(serviceCard.getBalanceAccountForCard("2635678940023467"));
+
         serviceCard.getAllCard().forEach(System.out::println);
 
         List<BankCard> bankCardList = serviceCard.getAllCard();

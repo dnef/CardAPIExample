@@ -10,7 +10,7 @@ public interface IDAO<E extends Serializable> {
 
     void remove(E entity);
 
-    E getIdAccount(Long id);
+    E getById(Long id);
 
     E getByStringField(String stringValue);
 

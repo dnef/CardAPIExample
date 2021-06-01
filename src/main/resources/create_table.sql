@@ -1,5 +1,4 @@
-DROP SCHEMA public;
-CREATE SCHEMA IF NOT EXISTS public;
+DROP TABLE client,counterparty,bank_account_client,bank_account_counterparty,bank_card;
 CREATE TABLE IF NOT EXISTS client
 (
     id_client     IDENTITY NOT NULL,
@@ -41,10 +40,10 @@ CREATE TABLE IF NOT EXISTS bank_card
 (
     id_card        IDENTITY NOT NULL,
     card_number    VARCHAR  NOT NULL UNIQUE,
-    account_number VARCHAR  NOT NULL,
+    account_number_id BIGINT  NOT NULL,
     active         BOOLEAN DEFAULT FALSE,
     open_date      DATE,
-    FOREIGN KEY (account_number) REFERENCES bank_account_client (account_number),
+    FOREIGN KEY (account_number_id) REFERENCES bank_account_client (id_account_cl),
     PRIMARY KEY (id_card)
 );
 

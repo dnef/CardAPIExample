@@ -20,11 +20,17 @@ public class HandlerBalance implements HttpHandler {
 
     private void handleResponse(HttpExchange httpExchange, String requestParamValue) {
         ServiceCard serviceCard = new ServiceCard();
-        String balance = String.valueOf(serviceCard.getBalanceAccountForCard(requestParamValue));
+        String message;
+        if (serviceCard.getCardByNumber(requestParamValue) == null){
+            message = "Карта отсутствует";
+        }else{message = "Карта №: " + requestParamValue + " баланс: " +
+                serviceCard.getBalanceAccountForCard(requestParamValue);}
+        byte[] balance = message.getBytes();
+
         try {
-            httpExchange.sendResponseHeaders(200, balance.length());
+            httpExchange.sendResponseHeaders(200, balance.length);
             OutputStream output = httpExchange.getResponseBody();
-            output.write(balance.getBytes());
+            output.write(balance);
             output.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -37,6 +43,6 @@ public class HandlerBalance implements HttpHandler {
                 getRequestURI()
                 .toString()
                 .split("\\?")[1]
-                .split("=")[1];
+                .split("card=")[1];
     }
 }

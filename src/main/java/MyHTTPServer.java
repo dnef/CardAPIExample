@@ -41,8 +41,8 @@ public class MyHTTPServer {
             System.out.println("HttpServer start.");
             HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 0);
             server.createContext("/apiCard/newCard", new HandlerNewCard());
-            server.createContext("/apiCard/all", new HandlerAllCard());
-            server.createContext("/apiCard/balance", new HandlerBalance());
+            server.createContext("/apiCard/allCard", new HandlerAllCard());
+            server.createContext("/apiCard/getBalance", new HandlerBalance());
             server.createContext("/apiCard/addBalance",new HandlerAddBalance());
 
             server.setExecutor(threadPoolExecutor);

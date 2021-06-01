@@ -27,7 +27,7 @@ public class CardDAO implements IDAO<BankCard> {
                 BankCard bankCard = new BankCard();
                 bankCard.setIdCard(resultSet.getInt("ID_CARD"));
                 bankCard.setCardNumber(resultSet.getString("CARD_NUMBER"));
-                bankCard.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
+                bankCard.setAccountNumberId(resultSet.getLong("ACCOUNT_NUMBER_ID"));
                 bankCard.setActive(resultSet.getBoolean("ACTIVE"));
                 bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
                 bankCardList.add(bankCard);
@@ -45,7 +45,7 @@ public class CardDAO implements IDAO<BankCard> {
         String sql = "INSERT INTO bank_card VALUES (null,?,?,?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, entity.getCardNumber());
-            preparedStatement.setString(2, entity.getAccountNumber());
+            preparedStatement.setLong(2, entity.getAccountNumberId());
             preparedStatement.setBoolean(3, entity.getActive());
             preparedStatement.setDate(4, entity.getOpenDate());
             preparedStatement.executeUpdate();
@@ -65,13 +65,14 @@ public class CardDAO implements IDAO<BankCard> {
         String sql = "DELETE FROM bank_card WHERE ID_CARD = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, entity.getIdCard());
+            preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
     @Override
-    public BankCard getIdAccount(Long id) {
+    public BankCard getById(Long id) {
         String sql = "SELECT * FROM BANK_CARD WHERE ID_CARD = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
@@ -80,7 +81,7 @@ public class CardDAO implements IDAO<BankCard> {
             BankCard bankCard = new BankCard();
             bankCard.setIdCard(resultSet.getLong("ID_CARD"));
             bankCard.setCardNumber(resultSet.getString("CARD_NUMBER"));
-            bankCard.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
+            bankCard.setAccountNumberId(resultSet.getLong("ACCOUNT_NUMBER_ID"));
             bankCard.setActive(resultSet.getBoolean("ACTIVE"));
             bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
             logger.info("DAO getCardByCardNumber run");
@@ -105,7 +106,7 @@ public class CardDAO implements IDAO<BankCard> {
             BankCard bankCard = new BankCard();
             bankCard.setIdCard(resultSet.getLong("ID_CARD"));
             bankCard.setCardNumber(resultSet.getString("CARD_NUMBER"));
-            bankCard.setAccountNumber(resultSet.getString("ACCOUNT_NUMBER"));
+            bankCard.setAccountNumberId(resultSet.getLong("ACCOUNT_NUMBER_ID"));
             bankCard.setActive(resultSet.getBoolean("ACTIVE"));
             bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
             logger.info("DAO getCardByCardNumber run");
@@ -122,10 +123,10 @@ public class CardDAO implements IDAO<BankCard> {
 
     @Override
     public void update(BankCard entity) {
-        String sql = "UPDATE BANK_CARD SET ID_CARD=null, CARD_NUMBER = ?,ACCOUNT_NUMBER=?,ACTIVE=?,OPEN_DATE=? WHERE ID_CARD=?";
+        String sql = "UPDATE BANK_CARD SET ID_CARD=null, CARD_NUMBER = ?,ACCOUNT_NUMBER_ID=?,ACTIVE=?,OPEN_DATE=? WHERE ID_CARD=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, entity.getCardNumber());
-            preparedStatement.setString(2, entity.getAccountNumber());
+            preparedStatement.setLong(2, entity.getAccountNumberId());
             preparedStatement.setBoolean(3, entity.getActive());
             preparedStatement.setDate(4, entity.getOpenDate());
             preparedStatement.setLong(5,entity.getIdCard());

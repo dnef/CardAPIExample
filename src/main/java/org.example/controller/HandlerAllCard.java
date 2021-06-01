@@ -18,7 +18,9 @@ public class HandlerAllCard implements HttpHandler {
         List<BankCard> bankCardList = serviceCard.getAllCard();
         StringWriter writer = new StringWriter();
         ObjectMapper mapper = new ObjectMapper();
+        if(bankCardList != null){
         mapper.writeValue(writer,bankCardList);
+        }else{writer.write("Ошибка сервера.");}
         httpExchange.sendResponseHeaders(200, writer.toString().length());
         OutputStream output = httpExchange.getResponseBody();
         output.write(writer.toString().getBytes());

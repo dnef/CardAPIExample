@@ -32,7 +32,7 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
     }
 
     @Override
-    public AccountForCustomer getIdAccount(Long id) {
+    public AccountForCustomer getById(Long id) {
 
         String sql = "SELECT * FROM BANK_ACCOUNT_CLIENT WHERE ID_ACCOUNT_CL= ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

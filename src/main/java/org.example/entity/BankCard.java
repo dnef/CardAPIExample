@@ -2,6 +2,7 @@ package org.example.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -14,6 +15,9 @@ public class BankCard implements Serializable {
     private long idCard;
     @JsonProperty("cardNumber")
     private String cardNumber;
+    //@JsonProperty("accountNumberId")
+    @JsonIgnore
+    private Long accountNumberId;
     @JsonProperty("accountNumber")
     private String accountNumber;
     @JsonProperty("active")
@@ -24,10 +28,10 @@ public class BankCard implements Serializable {
     public BankCard() {
     }
 
-    public BankCard(long idCard, String cardNumber, String accountNumber, Boolean active, Date openDate) {
+    public BankCard(long idCard, String cardNumber, Long accountNumberId, Boolean active, Date openDate) {
         this.idCard = idCard;
         this.cardNumber = cardNumber;
-        this.accountNumber = accountNumber;
+        this.accountNumberId = accountNumberId;
         this.active = active;
         this.openDate = openDate;
     }
@@ -48,6 +52,13 @@ public class BankCard implements Serializable {
         this.cardNumber = cardNumber;
     }
 
+    public Long getAccountNumberId() {
+        return accountNumberId;
+    }
+
+    public void setAccountNumberId(Long accountNumberId) {
+        this.accountNumberId = accountNumberId;
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -57,7 +68,6 @@ public class BankCard implements Serializable {
         this.accountNumber = accountNumber;
     }
 
-
     public Boolean getActive() {
         return active;
     }
@@ -66,20 +76,45 @@ public class BankCard implements Serializable {
         this.active = active;
     }
 
-
-    public java.sql.Date getOpenDate() {
+    public Date getOpenDate() {
         return openDate;
     }
 
-    public void setOpenDate(java.sql.Date openDate) {
+    public void setOpenDate(Date openDate) {
         this.openDate = openDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BankCard bankCard = (BankCard) o;
+
+        if (idCard != bankCard.idCard) return false;
+        if (!cardNumber.equals(bankCard.cardNumber)) return false;
+        if (!accountNumberId.equals(bankCard.accountNumberId)) return false;
+        if (!active.equals(bankCard.active)) return false;
+        return openDate.equals(bankCard.openDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (idCard ^ (idCard >>> 32));
+        result = 31 * result + cardNumber.hashCode();
+        result = 31 * result + accountNumberId.hashCode();
+        result = 31 * result + active.hashCode();
+        result = 31 * result + openDate.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
         return "BankCard{" +
-                "cardNumber='" + cardNumber + '\'' +
-                ", accountNumber=" + accountNumber +
+                "idCard=" + idCard +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", accountNumberId=" + accountNumberId +
+                ", accountNumber='" + accountNumber + '\'' +
                 ", active=" + active +
                 ", openDate=" + openDate +
                 '}';

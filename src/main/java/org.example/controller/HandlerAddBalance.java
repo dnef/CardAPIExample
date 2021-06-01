@@ -14,7 +14,6 @@ public class HandlerAddBalance implements HttpHandler {
         Map<String, String> requestParamValue = null;
         if ("POST".equals(httpExchange.getRequestMethod())) {
             requestParamValue = handleGetRequest(httpExchange);
-
         }
         handleResponse(httpExchange, requestParamValue);
     }
@@ -23,9 +22,13 @@ public class HandlerAddBalance implements HttpHandler {
         ServiceCard serviceCard = new ServiceCard();
         String card = requestParamValue.get("card");
         String cash = requestParamValue.get("balance");
+        String message;
+        if (serviceCard.getCardByNumber(card) == null){
+            message = "Карта отсутствует";
+        }else{message = "Баланс карты №:" + card + " изменен";}
         serviceCard.addBalanceForCard(Long.valueOf(cash), card);
         try {
-            byte[] bytes = ("Баланс карты №:" + card + " изменен").getBytes("utf-8");
+            byte[] bytes = message.getBytes("utf-8");
             httpExchange.sendResponseHeaders(200, bytes.length);
             OutputStream output = httpExchange.getResponseBody();
             output.write(bytes);
@@ -37,11 +40,6 @@ public class HandlerAddBalance implements HttpHandler {
     }
 
     private Map<String, String> handleGetRequest(HttpExchange httpExchange) {
-//        String urlParam = httpExchange.
-//                getRequestURI()
-//                .toString().split("\\?")[1];
-        //String urlParam = httpExchange.getRequestBody().toString();
-        //System.out.println(urlParam);
         InputStreamReader isr = null;
         try {
             isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");

@@ -11,7 +11,7 @@
 
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>~/CardApiExample/slf4jlogbackexample.log</file>
+        <file>slf4jlogbackexample.log</file>
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->

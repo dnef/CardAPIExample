@@ -74,7 +74,10 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setLong(1, entity.getIdCard());
             preparedStatement.execute();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            log.debug(throwables.toString());
+            if (throwables.getErrorCode() == 2000) {
+                System.out.println("Карта не существует");
+            }
         }
     }
 
@@ -122,7 +125,7 @@ public class CardDAO implements IDAO<BankCard> {
             //throwables.printStackTrace();
             log.debug(throwables.toString());
             if (throwables.getErrorCode() == 2000){
-                System.out.println("Карта не существует");
+                System.out.println("Карта №: "+cardNumber+" не существует");
             }
         }
         return null;

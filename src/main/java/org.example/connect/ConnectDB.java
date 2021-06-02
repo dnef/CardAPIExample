@@ -1,5 +1,8 @@
 package org.example.connect;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,7 +19,7 @@ public class ConnectDB {
     private String host;
     private String login;
     private String password;
-    Logger logger = Logger.getLogger(ConnectDB.class.getName());
+    Log logger = LogFactory.getLog(ConnectDB.class);
 
     private void setProperty() {
         try {
@@ -26,7 +29,7 @@ public class ConnectDB {
             host = property.getProperty("db.host");
             login = property.getProperty("db.login");
             password = property.getProperty("db.password");
-            logger.info("Property read");
+            logger.debug("Property read");
         } catch (FileNotFoundException e) {
             System.err.println("ОШИБКА: Файл свойств отсуствует!");
         } catch (IOException e) {
@@ -39,7 +42,7 @@ public class ConnectDB {
             Class.forName("org.h2.Driver").getDeclaredConstructor().newInstance();
             setProperty();
             Connection conn = DriverManager.getConnection(host, login, password);
-            logger.info("Connection databace...");
+            logger.debug("Connection databace...");
             return conn;
         } catch (ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();

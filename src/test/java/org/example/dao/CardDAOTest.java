@@ -57,6 +57,8 @@ public class CardDAOTest {
 
     @Test
     public void update() {
-
+        bankCardList.get(0).setAccountNumberId(3L);
+        cardDAO.update(bankCardList.get(0));
+        Assert.assertEquals(bankCardList.get(0).getAccountNumber(), cardDAO.getById(1L).getAccountNumber());
     }
 }

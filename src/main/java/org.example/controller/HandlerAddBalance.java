@@ -23,13 +23,18 @@ public class HandlerAddBalance implements HttpHandler {
         String card = requestParamValue.get("card");
         String cash = requestParamValue.get("balance");
         String message;
-        if (serviceCard.getCardByNumber(card) == null){
-            message = "Карта отсутствует";
-        }else{message = "Баланс карты №:" + card + " изменен";}
-        serviceCard.addBalanceForCard(Long.valueOf(cash), card);
+        int code = 200;
+        if ((card.matches("[0-9]+") && card.length() == 16) && (cash.matches("[0-9]+"))) {
+            if (serviceCard.getCardByNumber(card) == null) {
+                message = "Карта отсутствует";
+            } else {
+                message = "Баланс карты №:" + card + " изменен";
+            }
+            serviceCard.addBalanceForCard(Long.valueOf(cash), card);
+        }else{message = "Не корректные входные данные.";code=400;}
         try {
             byte[] bytes = message.getBytes("utf-8");
-            httpExchange.sendResponseHeaders(200, bytes.length);
+            httpExchange.sendResponseHeaders(code, bytes.length);
             OutputStream output = httpExchange.getResponseBody();
             output.write(bytes);
             output.flush();

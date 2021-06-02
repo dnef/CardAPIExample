@@ -21,14 +21,19 @@ public class HandlerBalance implements HttpHandler {
     private void handleResponse(HttpExchange httpExchange, String requestParamValue) {
         ServiceCard serviceCard = new ServiceCard();
         String message;
-        if (serviceCard.getCardByNumber(requestParamValue) == null){
-            message = "Карта отсутствует";
-        }else{message = "Карта №: " + requestParamValue + " баланс: " +
-                serviceCard.getBalanceAccountForCard(requestParamValue);}
+        int code=200;
+        if (requestParamValue.matches("[0-9]+") && requestParamValue.length() == 16) {
+            if (serviceCard.getCardByNumber(requestParamValue) == null) {
+                message = "Карта отсутствует";
+            } else {
+                message = "Карта №: " + requestParamValue + " баланс: " +
+                        serviceCard.getBalanceAccountForCard(requestParamValue);
+            }
+        }else{message = "Не корректные входные данные.";code=400;}
         byte[] balance = message.getBytes();
 
         try {
-            httpExchange.sendResponseHeaders(200, balance.length);
+            httpExchange.sendResponseHeaders(code, balance.length);
             OutputStream output = httpExchange.getResponseBody();
             output.write(balance);
             output.flush();

@@ -1,7 +1,10 @@
 package org.example.dao;
 
 import org.example.connect.ConnectDB;
+import org.example.connect.ConnectionBuilder;
+import org.example.connect.SimpleConnectionBuilder;
 import org.example.entity.AccountForCustomer;
+import org.example.exception.DaoException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,12 +13,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AccountClientDAO implements IDAO<AccountForCustomer> {
-    Connection connection;
-
-    public AccountClientDAO() {
-        this.connection = new ConnectDB().getConnection();
+//    Connection connection;
+//
+//    public AccountClientDAO() {
+//        this.connection = new ConnectDB().getConnection();
+//    }
+private ConnectionBuilder builder = new SimpleConnectionBuilder();
+    private Connection getConnection() throws SQLException {
+        return builder.getConnection();
     }
-
     @Override
     public List<AccountForCustomer> getAll() {
         return null;
@@ -32,10 +38,10 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
     }
 
     @Override
-    public AccountForCustomer getById(Long id) {
+    public AccountForCustomer getById(Long id) throws DaoException {
 
         String sql = "SELECT * FROM BANK_ACCOUNT_CLIENT WHERE ID_ACCOUNT_CL= ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -46,22 +52,22 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
             accountForCustomer.setBalance(resultSet.getLong("BALANCE"));
             accountForCustomer.setActive(resultSet.getBoolean("ACTIVE"));
             accountForCustomer.setOpenDate(resultSet.getDate("OPEN_DATE"));
-            connection.close();
+            resultSet.close();
             return accountForCustomer;
 
         } catch (SQLException throwables) {
-            System.out.println("Ошибка SQL : " + throwables.getErrorCode());
+            //System.out.println("Ошибка SQL : " + throwables.getErrorCode());
             //throwables.printStackTrace();
+            throw new DaoException();
         }
-        return null;
 
     }
 
     @Override
-    public AccountForCustomer getByStringField(String numberAccount) {
+    public AccountForCustomer getByStringField(String numberAccount) throws DaoException {
 
         String sql = "SELECT * FROM BANK_ACCOUNT_CLIENT WHERE ACCOUNT_NUMBER= ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, numberAccount);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -72,28 +78,27 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
             accountForCustomer.setBalance(resultSet.getLong("BALANCE"));
             accountForCustomer.setActive(resultSet.getBoolean("ACTIVE"));
             accountForCustomer.setOpenDate(resultSet.getDate("OPEN_DATE"));
-            connection.close();
             return accountForCustomer;
         } catch (SQLException throwables) {
-            System.out.println("Ошибка SQL : " + throwables.getErrorCode());
+           // System.out.println("Ошибка SQL : " + throwables.getErrorCode());
             //throwables.printStackTrace();
+            throw new DaoException();
 
         }
-        return null;
     }
 
     @Override
-    public void update(AccountForCustomer entity) {
+    public void update(AccountForCustomer entity) throws DaoException {
         String sql = "UPDATE BANK_ACCOUNT_CLIENT SET BALANCE = ?, ACTIVE = ? WHERE ID_ACCOUNT_CL = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = getConnection();PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setLong(1, entity.getBalance());
             preparedStatement.setBoolean(2, entity.getActive());
             preparedStatement.setLong(3, entity.getIdAccountCl());
             preparedStatement.executeUpdate();
-            connection.close();
         } catch (SQLException throwables) {
             //throwables.printStackTrace();
-            System.out.println("Ошибка SQL : " + throwables.getErrorCode());
+            //System.out.println("Ошибка SQL : " + throwables.getErrorCode());
+            throw new DaoException();
         }
     }
 }

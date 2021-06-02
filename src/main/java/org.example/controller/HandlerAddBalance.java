@@ -2,6 +2,7 @@ package org.example.controller;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.example.exception.ServiceException;
 import org.example.service.ServiceCard;
 
 import java.io.*;
@@ -25,12 +26,18 @@ public class HandlerAddBalance implements HttpHandler {
         String message;
         int code = 200;
         if ((card.matches("[0-9]+") && card.length() == 16) && (cash.matches("[0-9]+"))) {
-            if (serviceCard.getCardByNumber(card) == null) {
-                message = "Карта отсутствует";
-            } else {
+//            if (serviceCard.getCardByNumber(card) == null) {
+//                message = "Карта отсутствует";
+//            } else {
+//                message = "Баланс карты №:" + card + " изменен";
+//            }
+            try {
+                serviceCard.addBalanceForCard(Long.valueOf(cash), card);
                 message = "Баланс карты №:" + card + " изменен";
+            } catch (ServiceException e) {
+                // logger  ------ e.printStackTrace();
+                message = "Карта отсутствует";
             }
-            serviceCard.addBalanceForCard(Long.valueOf(cash), card);
         }else{message = "Не корректные входные данные.";code=400;}
         try {
             byte[] bytes = message.getBytes("utf-8");

@@ -2,7 +2,9 @@ package org.example;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.common.GlobalConfig;
 import org.example.entity.BankCard;
+import org.example.exception.ServiceException;
 import org.example.service.ServiceCard;
 
 import java.io.IOException;
@@ -13,21 +15,52 @@ import java.util.List;
 
 public class testapi {
     public static void main(String[] args) throws IOException {
-       ServiceCard serviceCard = new ServiceCard();
-       serviceCard.addBalanceForCard(900000L,"2635678940023467");
 
-        BankCard bankCard= new BankCard();
-        bankCard.setCardNumber("1111111111111113");
+     GlobalConfig.initGlobalConfig("src/main/resources/config.properties");
+     ServiceCard serviceCard = new ServiceCard();
+
+     try {
+      serviceCard.addBalanceForCard(900000L,"1111111111111113");
+     } catch (ServiceException e) {
+      //e.printStackTrace();
+      System.out.println("1--------------------------");
+     }
+
+     BankCard bankCard= new BankCard();
+        bankCard.setCardNumber("1111111111111118");
         bankCard.setAccountNumberId(3L);
+        bankCard.setAccountNumber("11111111111111111113");
         bankCard.setActive(true);
         bankCard.setOpenDate(Date.valueOf(LocalDate.now()));
-        serviceCard.addCardForAccaunt(bankCard);
-        System.out.println(serviceCard.getBalanceAccountForCard("2635678940023467"));
+     try {
+      serviceCard.addCardForAccaunt(bankCard);
+     } catch (ServiceException e) {
+      //e.printStackTrace();
+      System.out.println("2--------------------------");
+      e.printStackTrace();
+     }
+     try {
+      System.out.println(serviceCard.getBalanceAccountForCard("1111111111111113"));
+     } catch (ServiceException e) {
+      //e.printStackTrace();
+      System.out.println("3--------------------------");
+     }
 
-        serviceCard.getAllCard().forEach(System.out::println);
+     try {
+      serviceCard.getAllCard().forEach(System.out::println);
+     } catch (ServiceException e) {
+      //e.printStackTrace();
+      System.out.println("4--------------------------");
+     }
 
-        List<BankCard> bankCardList = serviceCard.getAllCard();
-        StringWriter writer = new StringWriter();
+     List<BankCard> bankCardList = null;
+     try {
+      bankCardList = serviceCard.getAllCard();
+     } catch (ServiceException e) {
+     // e.printStackTrace();
+      System.out.println("5--------------------------");
+     }
+     StringWriter writer = new StringWriter();
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(writer,bankCardList);
         System.out.println(writer.toString());

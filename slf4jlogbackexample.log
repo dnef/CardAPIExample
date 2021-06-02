@@ -4,3 +4,50 @@
 02.06.2021 15:48:30.132 [pool-1-thread-1] DEBUG  o.e.c.ConnectDB - Connection databace...
 02.06.2021 15:48:30.133 [pool-1-thread-1] DEBUG  o.e.c.ConnectDB - Property read
 02.06.2021 15:48:30.133 [pool-1-thread-1] DEBUG  o.e.c.ConnectDB - Connection databace...
+02.06.2021 21:04:53.633 [main] DEBUG  o.e.c.ConnectDB - Property read
+02.06.2021 21:06:04.194 [main] DEBUG  o.e.c.ConnectDB - Property read
+02.06.2021 21:51:35.046 [main] DEBUG  o.e.dao.CardDAO - java.sql.SQLException: The url cannot be null
+02.06.2021 21:53:52.556 [main] DEBUG  o.e.dao.CardDAO - java.sql.SQLException: The url cannot be null
+02.06.2021 21:55:01.517 [main] DEBUG  o.e.dao.CardDAO - org.h2.jdbc.JdbcSQLException: Таблица "BANK_CARD" не найдена
+Table "BANK_CARD" not found; SQL statement:
+SELECT * FROM BANK_CARD WHERE CARD_NUMBER = ? [42102-161]
+02.06.2021 21:55:27.035 [main] DEBUG  o.e.dao.CardDAO - org.h2.jdbc.JdbcSQLException: Нет данных
+No data is available [2000-161]
+02.06.2021 21:56:32.243 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:02:36.621 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:04:53.134 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:05:32.275 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:06:42.261 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:09:39.730 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:11:08.279 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:13:37.301 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:13:37.364 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:13:37.380 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:13:37.433 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:15:09.480 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:15:09.564 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:15:09.564 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:15:09.611 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:21:25.163 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:21:39.769 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:21:39.769 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:21:39.816 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:27:11.890 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:27:11.968 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:27:11.975 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:27:12.006 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:27:58.810 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:29:32.486 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:29:32.502 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:29:32.524 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:29:39.294 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:35:16.859 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:35:16.875 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:35:16.897 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:37:43.644 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:37:43.729 [main] DEBUG  o.e.dao.CardDAO - DAO addCard run
+02.06.2021 22:37:43.729 [main] DEBUG  o.e.dao.CardDAO - DAO getCardByCardNumber run
+02.06.2021 22:37:43.744 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:37:43.791 [main] DEBUG  o.e.dao.CardDAO - DAO getAllCard run
+02.06.2021 22:38:35.957 [main] DEBUG  o.e.c.ConnectDB - Property read
+02.06.2021 22:42:04.267 [pool-1-thread-1] DEBUG  o.e.dao.CardDAO - DAO getAllCard run

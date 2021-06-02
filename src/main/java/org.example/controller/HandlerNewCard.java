@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.entity.BankCard;
+import org.example.exception.ServiceException;
 import org.example.service.ServiceCard;
 
 import java.io.*;
@@ -31,18 +32,24 @@ public class HandlerNewCard implements HttpHandler {
             BufferedReader br = new BufferedReader(isr);
             String line;
             StringBuilder content = new StringBuilder();
+            String message;
             while ((line= br.readLine())!=null){
                 content.append(line);
             }
             br.close();
             List<BankCard> bankCardList1= mapperIn.readValue(content.toString(), new TypeReference<List<BankCard>>(){});
-            for (BankCard card:bankCardList1){
-                serviceCard.addCardForAccaunt(card);
+            try {
+                for (BankCard card : bankCardList1) {
+                    serviceCard.addCardForAccaunt(card);
+                }
+                message = "Cards added";
+            }catch (ServiceException e){
+                message = "Ошибка добавления";
             }
-            String ok = "Cards added";
-            httpExchange.sendResponseHeaders(200,ok.length());
+
+            httpExchange.sendResponseHeaders(200,message.getBytes().length);
             OutputStream output = httpExchange.getResponseBody();
-            output.write(ok.getBytes());
+            output.write(message.getBytes());
             output.flush();
             httpExchange.close();
         } catch (IOException e) {

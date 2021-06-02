@@ -40,22 +40,29 @@ public class ConnectDB {
     public Connection getConnection() {
         try {
             Class.forName("org.h2.Driver").getDeclaredConstructor().newInstance();
-            setProperty();
-            Connection conn = DriverManager.getConnection(host, login, password);
-            logger.debug("Connection databace...");
+        } catch (InstantiationException instantiationException) {
+            instantiationException.printStackTrace();
+        } catch (IllegalAccessException illegalAccessException) {
+            illegalAccessException.printStackTrace();
+        } catch (InvocationTargetException invocationTargetException) {
+            invocationTargetException.printStackTrace();
+        } catch (NoSuchMethodException noSuchMethodException) {
+            noSuchMethodException.printStackTrace();
+        } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+        }
+        setProperty();
+
+
+        try(Connection conn = DriverManager.getConnection(host, login, password)) {
             return conn;
-        } catch (ClassNotFoundException | NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return null;
+        logger.debug("Connection databace...");
+
+return null;
+
 
     }
 }

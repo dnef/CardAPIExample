@@ -2,6 +2,7 @@ package org.example.controller;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.example.exception.ServiceException;
 import org.example.service.ServiceCard;
 
 import java.io.IOException;
@@ -23,11 +24,12 @@ public class HandlerBalance implements HttpHandler {
         String message;
         int code=200;
         if (requestParamValue.matches("[0-9]+") && requestParamValue.length() == 16) {
-            if (serviceCard.getCardByNumber(requestParamValue) == null) {
-                message = "Карта отсутствует";
-            } else {
-                message = "Карта №: " + requestParamValue + " баланс: " +
+            try {
+            message = "Карта №: " + requestParamValue + " баланс: " +
                         serviceCard.getBalanceAccountForCard(requestParamValue);
+            } catch (ServiceException e) {
+                //e.printStackTrace();
+                message = "Карта отсутствует.";
             }
         }else{message = "Не корректные входные данные.";code=400;}
         byte[] balance = message.getBytes();

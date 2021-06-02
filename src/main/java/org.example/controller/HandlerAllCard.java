@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import org.example.entity.BankCard;
+import org.example.exception.ServiceException;
 import org.example.service.ServiceCard;
 
 import java.io.IOException;
@@ -15,12 +16,17 @@ public class HandlerAllCard implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         ServiceCard serviceCard = new ServiceCard();
-        List<BankCard> bankCardList = serviceCard.getAllCard();
+        List<BankCard> bankCardList = null;
         StringWriter writer = new StringWriter();
         ObjectMapper mapper = new ObjectMapper();
-        if(bankCardList != null){
-        mapper.writeValue(writer,bankCardList);
-        }else{writer.write("Ошибка сервера.");}
+        try {
+            bankCardList = serviceCard.getAllCard();
+            mapper.writeValue(writer,bankCardList);
+        } catch (ServiceException e) {
+            //e.printStackTrace();
+            writer.write("Ошибка сервера.");
+        }
+        // TODO: 02.06.2021 код ошибки надо получать
         httpExchange.sendResponseHeaders(200, writer.toString().length());
         OutputStream output = httpExchange.getResponseBody();
         output.write(writer.toString().getBytes());

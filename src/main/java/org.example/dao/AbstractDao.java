@@ -1,5 +1,7 @@
 package org.example.dao;
 
+import org.example.exception.DaoException;
+
 import java.io.Serializable;
 import java.util.List;
 

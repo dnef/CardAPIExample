@@ -5,8 +5,9 @@ import org.example.common.GlobalConfig;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-public class SimpleConnectionBuilder implements ConnectionBuilder
-{
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+public class SimpleConnectionBuilder implements ConnectionBuilder {
+    private ComboPooledDataSource dataSource;
     public SimpleConnectionBuilder() {
         try {
             Class.forName(GlobalConfig.getProperty("db.driver.class"));

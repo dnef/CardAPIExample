@@ -16,7 +16,7 @@ import java.util.List;
 public class testapi {
     public static void main(String[] args) throws IOException {
 
-     GlobalConfig.initGlobalConfig("src/main/resources/config.properties");
+     GlobalConfig.initGlobalConfig("src/main/resources/configTest.properties");
      ServiceCard serviceCard = new ServiceCard();
 
      try {

@@ -1,5 +1,7 @@
 package org.example.service;
 
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.example.dao.AccountClientDAO;
 import org.example.dao.CardDAO;
 import org.example.dao.DAOFactory;
@@ -10,12 +12,12 @@ import org.example.exception.ServiceException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 public class ServiceCard {
-    CardDAO cardDAO;
-    AccountClientDAO accountClientDAO;
-    Logger logger = Logger.getLogger(CardDAO.class.getName());
+    private CardDAO cardDAO;
+    private AccountClientDAO accountClientDAO;
+    Log logger = LogFactory.getLog(CardDAO.class);
 
     public ServiceCard() {
 //        cardDAO = new CardDAO();

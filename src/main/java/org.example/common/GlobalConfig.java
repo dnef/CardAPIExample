@@ -22,6 +22,13 @@ public class GlobalConfig {
             GLOBAL_COFIG.load(new FileReader(CONFIG_NAME));
         }
     }
+    public static void initGlobalConfigTest(String name) throws IOException {
+        if (name != null && !name.trim().isEmpty()) {
+            GLOBAL_COFIG.load(new FileReader(name));
+        } else {
+            GLOBAL_COFIG.load(new FileReader(CONFIG_NAME));
+        }
+    }
 
     // Получить значение параметра из глобальной конфигурации по имени
     public static String getProperty(String property) {

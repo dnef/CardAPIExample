@@ -1,8 +1,8 @@
 package org.example.dao;
 
-import org.example.connect.ConnectDB;
 import org.example.connect.ConnectionBuilder;
-import org.example.connect.SimpleConnectionBuilder;
+import org.example.connect.ConnectionBuilderFactory;
+import org.example.connect.PoolConnectionBuilder;
 import org.example.entity.AccountForCustomer;
 import org.example.exception.DaoException;
 
@@ -18,7 +18,7 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
 //    public AccountClientDAO() {
 //        this.connection = new ConnectDB().getConnection();
 //    }
-private ConnectionBuilder builder = new SimpleConnectionBuilder();
+private ConnectionBuilder builder = ConnectionBuilderFactory.getConnectionBuilder();
     private Connection getConnection() throws SQLException {
         return builder.getConnection();
     }

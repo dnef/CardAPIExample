@@ -1,4 +1,4 @@
--- DROP TABLE client,counterparty,bank_account_client,bank_account_counterparty,bank_card;
+DROP TABLE IF EXISTS client,counterparty,bank_account_client,bank_account_counterparty,bank_card;
 CREATE TABLE IF NOT EXISTS client
 (
     id_client     IDENTITY NOT NULL,

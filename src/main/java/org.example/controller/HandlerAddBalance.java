@@ -25,12 +25,7 @@ public class HandlerAddBalance implements HttpHandler {
         String cash = requestParamValue.get("balance");
         String message;
         int code = 200;
-        if ((card.matches("[0-9]+") && card.length() == 16) && (cash.matches("[0-9]+"))) {
-//            if (serviceCard.getCardByNumber(card) == null) {
-//                message = "Карта отсутствует";
-//            } else {
-//                message = "Баланс карты №:" + card + " изменен";
-//            }
+        if ((card.matches("[0-9]+") && card.length() == 16) && (cash.matches("^-?\\d*\\.{0,1}\\d+$"))) {
             try {
                 serviceCard.addBalanceForCard(Long.valueOf(cash), card);
                 message = "Баланс карты №:" + card + " изменен";

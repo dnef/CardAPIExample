@@ -1,11 +1,9 @@
 package org.example.dao;
 
-import org.example.exception.DaoException;
-
 import java.io.Serializable;
 import java.util.List;
 
-public class AbstractDao<E extends Serializable> implements IDAO<E>{
+public class AbstractDao<E extends Serializable> implements IDAO<E> {
 
 
     @Override
@@ -24,7 +22,7 @@ public class AbstractDao<E extends Serializable> implements IDAO<E>{
     }
 
     @Override
-    public E getById(Long id){
+    public E getById(Long id) {
         return null;
     }
 

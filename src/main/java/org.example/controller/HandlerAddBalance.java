@@ -2,6 +2,8 @@ package org.example.controller;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.example.exception.ServiceException;
 import org.example.service.ServiceCard;
 
@@ -10,13 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HandlerAddBalance implements HttpHandler {
+    private Log logger = LogFactory.getLog(HandlerAddBalance.class);
+
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
+    public void handle(HttpExchange httpExchange) {
         Map<String, String> requestParamValue = null;
         if ("POST".equals(httpExchange.getRequestMethod())) {
             requestParamValue = handleGetRequest(httpExchange);
+            handleResponse(httpExchange, requestParamValue);
         }
-        handleResponse(httpExchange, requestParamValue);
+
     }
 
     private void handleResponse(HttpExchange httpExchange, Map<String, String> requestParamValue) {
@@ -24,24 +29,31 @@ public class HandlerAddBalance implements HttpHandler {
         String card = requestParamValue.get("card");
         String cash = requestParamValue.get("balance");
         String message;
-        int code = 200;
+        int code;
         if ((card.matches("[0-9]+") && card.length() == 16) && (cash.matches("^-?\\d*\\.{0,1}\\d+$"))) {
             try {
                 serviceCard.addBalanceForCard(Long.valueOf(cash), card);
                 message = "Баланс карты №:" + card + " изменен";
+                code=200;
             } catch (ServiceException e) {
-                // logger  ------ e.printStackTrace();
                 message = "Карта отсутствует";
+                logger.debug("Карта отсутствует");
+                code = 400;
             }
-        }else{message = "Не корректные входные данные.";code=400;}
+        } else {
+            message = "Не корректные входные данные.";
+            code = 400;
+            logger.debug("Не корректные входные данные.");
+        }
         try {
             byte[] bytes = message.getBytes("utf-8");
             httpExchange.sendResponseHeaders(code, bytes.length);
             OutputStream output = httpExchange.getResponseBody();
             output.write(bytes);
             output.flush();
+            httpExchange.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
@@ -66,9 +78,9 @@ public class HandlerAddBalance implements HttpHandler {
             }
             return map;
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return null;
     }

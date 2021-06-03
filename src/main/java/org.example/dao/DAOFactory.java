@@ -1,25 +1,28 @@
 package org.example.dao;
 
-import org.example.common.GlobalConfig;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 
 public class DAOFactory {
+    private static Log logger = LogFactory.getLog(DAOFactory.class);
+
     public static CardDAO getCardDAO() {
         try {
             //Class dao = Class.forName(GlobalConfig.getProperty("dao.class"));
             Class dao = Class.forName(CardDAO.class.getName());
-            return (CardDAO)dao.newInstance();
+            return (CardDAO) dao.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         return null;
     }
+
     public static AccountClientDAO getAccountClientDAO() {
         try {
-            //Class dao = Class.forName(GlobalConfig.getProperty("dao.class"));
             Class dao = Class.forName(AccountClientDAO.class.getName());
             return (AccountClientDAO) dao.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
         return null;
     }

@@ -1,9 +1,6 @@
 package org.example.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;

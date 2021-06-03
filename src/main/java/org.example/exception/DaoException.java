@@ -1,6 +1,6 @@
 package org.example.exception;
 
-public class DaoException extends Exception{
+public class DaoException extends Exception {
     public DaoException() {
     }
 

@@ -1,6 +1,8 @@
 package org.example.common;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.example.connect.ConnectionBuilder;
 import org.example.connect.ConnectionBuilderFactory;
 
@@ -10,6 +12,7 @@ import java.sql.SQLException;
 
 public class CreateDB {
     public static void createDB() {
+        Log logger = LogFactory.getLog(CreateDB.class);
         ConnectionBuilder builder = ConnectionBuilderFactory.getConnectionBuilder();
         try(
                 Connection connection = builder.getConnection()) {
@@ -21,16 +24,16 @@ public class CreateDB {
             readerTable.close();
             readerInsert.close();
             scriptRunner.closeConnection();
-            System.out.println("SQL script runner");
+            logger.debug("SQL script runner");
         } catch (
                 FileNotFoundException e) {
-            System.out.println("File SQL script not found: "+e);
+            logger.error("File SQL script not found: "+e);
         }  catch (
                 SQLException throwables) {
-            System.out.println("Error SQL :"+throwables);
+            logger.error("Error SQL :"+throwables);
         }catch (
                 IOException e) {
-            e.printStackTrace();
+            logger.error("Error :"+e);
         }
     }
 }

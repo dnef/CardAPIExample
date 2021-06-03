@@ -5,7 +5,6 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.example.connect.ConnectionBuilder;
 import org.example.connect.ConnectionBuilderFactory;
-import org.example.connect.PoolConnectionBuilder;
 import org.example.entity.BankCard;
 import org.example.exception.DaoException;
 
@@ -18,11 +17,8 @@ import java.util.List;
 
 
 public class CardDAO implements IDAO<BankCard> {
-    //    Connection connection;
-//    public CardDAO() {
-//        this.connection = new ConnectDB().getConnection();
-//    }
-    Log log = LogFactory.getLog(CardDAO.class);
+
+    Log logger = LogFactory.getLog(CardDAO.class);
     private ConnectionBuilder builder = ConnectionBuilderFactory.getConnectionBuilder();
 
     private Connection getConnection() throws SQLException {
@@ -45,10 +41,8 @@ public class CardDAO implements IDAO<BankCard> {
                 bankCardList.add(bankCard);
             }
             resultSet.close();
-            log.debug("DAO getAllCard run");
             return bankCardList;
         } catch (SQLException throwables) {
-            //throwables.printStackTrace();
             throw new DaoException(throwables);
         }
     }
@@ -62,13 +56,7 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setBoolean(3, entity.getActive());
             preparedStatement.setDate(4, entity.getOpenDate());
             preparedStatement.executeUpdate();
-            log.debug("DAO addCard run");
         } catch (SQLException throwables) {
-            //throwables.printStackTrace();
-            //System.out.println(throwables.getMessage());
-//            if (throwables.getErrorCode() == 23505) {
-//                System.out.println("Карта существует №: " + entity.getCardNumber());
-//            }
             throw new DaoException();
         }
 
@@ -81,10 +69,6 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setLong(1, entity.getIdCard());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
-            log.debug(throwables.toString());
-//            if (throwables.getErrorCode() == 2000) {
-//                System.out.println("Карта не существует");
-//            }
             throw new DaoException();
         }
     }
@@ -103,16 +87,12 @@ public class CardDAO implements IDAO<BankCard> {
                 bankCard.setAccountNumberId(resultSet.getLong("ACCOUNT_NUMBER_ID"));
                 bankCard.setActive(resultSet.getBoolean("ACTIVE"));
                 bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
-                log.debug("DAO getCardByCardNumber run");
                 resultSet.close();
                 return bankCard;
-            }else{return null;}
+            } else {
+                return null;
+            }
         } catch (SQLException throwables) {
-            //throwables.printStackTrace();
-            log.debug(throwables.toString());
-//            if (throwables.getErrorCode() == 2000) {
-//                System.out.println("Карта не существует");
-//            }
             throw new DaoException();
         }
     }
@@ -130,14 +110,8 @@ public class CardDAO implements IDAO<BankCard> {
             bankCard.setAccountNumberId(resultSet.getLong("ACCOUNT_NUMBER_ID"));
             bankCard.setActive(resultSet.getBoolean("ACTIVE"));
             bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
-            log.debug("DAO getCardByCardNumber run");
             return bankCard;
         } catch (SQLException throwables) {
-            //throwables.printStackTrace();
-            log.debug(throwables.toString());
-//            if (throwables.getErrorCode() == 2000){
-//                System.out.println("Карта №: "+cardNumber+" не существует");
-//            }
             throw new DaoException();
         }
     }
@@ -153,13 +127,7 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setDate(5, entity.getOpenDate());
             preparedStatement.setLong(6, entity.getIdCard());
             preparedStatement.executeUpdate();
-            log.debug("DAO updateCard run");
         } catch (SQLException throwables) {
-            //throwables.printStackTrace();
-            //System.out.println(throwables.getMessage());
-//            if (throwables.getErrorCode() == 2000) {
-//                System.out.println("Карта отсутствует №: " + entity.getCardNumber());
-//            }
             throw new DaoException();
         }
     }

@@ -20,15 +20,13 @@ public class ServiceCard {
     Log logger = LogFactory.getLog(CardDAO.class);
 
     public ServiceCard() {
-//        cardDAO = new CardDAO();
-//        accountClientDAO = new AccountClientDAO();
         cardDAO = DAOFactory.getCardDAO();
         accountClientDAO = DAOFactory.getAccountClientDAO();
     }
 
     public void addCardForAccaunt(BankCard bankCard) throws ServiceException {
 
-        Long accountNumberId = null;
+        Long accountNumberId;
         try {
             accountNumberId = accountClientDAO.getByStringField(bankCard.getAccountNumber()).getIdAccountCl();
             bankCard.setAccountNumberId(accountNumberId);

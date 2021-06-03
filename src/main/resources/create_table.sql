@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS counterparty
 );
 CREATE TABLE IF NOT EXISTS bank_account_client
 (
-    id_account_cl  IDENTITY NOT NULL,
+    id_account_cl  IDENTITY NOT NULL ,
     account_number VARCHAR  NOT NULL UNIQUE,
     id_client      BIGINT,
     balance        BIGINT   NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS bank_account_counterparty
     balance         BIGINT   NOT NULL,
     active          BOOLEAN DEFAULT FALSE,
     open_date       DATE,
-    FOREIGN KEY (id_counterparty) REFERENCES counterparty (id_counterparty),
+    FOREIGN KEY (id_counterparty) REFERENCES counterparty (id_counterparty) ,
     PRIMARY KEY (id_account_cou)
 );
 CREATE TABLE IF NOT EXISTS bank_card
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS bank_card
     account_number_id BIGINT  NOT NULL,
     active         BOOLEAN DEFAULT FALSE,
     open_date      DATE,
-    FOREIGN KEY (account_number_id) REFERENCES bank_account_client (id_account_cl),
+    FOREIGN KEY (account_number_id) REFERENCES bank_account_client (id_account_cl) ON DELETE CASCADE,
     PRIMARY KEY (id_card)
 );
 

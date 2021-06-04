@@ -54,11 +54,9 @@ public class HandlerTest {
         RequestBuilder reqbuilder2 = reqbuilder1.addParameter("card", "1111111111111111")
                 .addParameter("balance", "99999");
         HttpUriRequest httppost = reqbuilder2.build();
-        httpclient.execute(httppost);
         HttpResponse httpresponse = httpclient.execute(httppost);
-        Assert.assertEquals(httpresponse.getStatusLine().getStatusCode(), 200);
-//        long balance = serviceCard.getBalanceAccountForCard("1111111111111111");
-//        Assert.assertEquals(balance, 199999L);
+        String content = EntityUtils.toString(httpresponse.getEntity(), "UTF-8");
+        Assert.assertEquals(content, "Баланс карты №:1111111111111111 : 199999");
     }
 
     @Test
@@ -71,7 +69,6 @@ public class HandlerTest {
         CloseableHttpResponse response = null;
         response = httpclient.execute(httpGet);
         String content = EntityUtils.toString(response.getEntity(), "UTF-8");
-        //System.out.println("--------------"+content);
         Assert.assertEquals(content, "Карта №: 1111111111111112 баланс: 200000");
 
     }
@@ -85,6 +82,5 @@ public class HandlerTest {
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
         Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
-        //Assert.assertEquals(serviceCard.getCardByNumber("1111111111111119").getAccountNumber(), "11111111111111111111");
     }
 }

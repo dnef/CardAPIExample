@@ -33,7 +33,7 @@ public class HandlerAddBalance implements HttpHandler {
         if ((card.matches("[0-9]+") && card.length() == 16) && (cash.matches("^-?\\d*\\.{0,1}\\d+$"))) {
             try {
                 serviceCard.addBalanceForCard(Long.valueOf(cash), card);
-                message = "Баланс карты №:" + card + " изменен";
+                message = "Баланс карты №:" + card + " : "+ serviceCard.getBalanceAccountForCard(card);
                 code=200;
             } catch (ServiceException e) {
                 message = "Карта отсутствует";

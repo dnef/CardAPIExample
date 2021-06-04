@@ -53,7 +53,7 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
             return accountForCustomer;
 
         } catch (SQLException throwables) {
-            throw new DaoException();
+            throw new DaoException(throwables);
         }
 
     }
@@ -75,7 +75,7 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
             accountForCustomer.setOpenDate(resultSet.getDate("OPEN_DATE"));
             return accountForCustomer;
         } catch (SQLException throwables) {
-            throw new DaoException();
+            throw new DaoException(throwables);
         }
     }
 
@@ -88,7 +88,7 @@ public class AccountClientDAO implements IDAO<AccountForCustomer> {
             preparedStatement.setLong(3, entity.getIdAccountCl());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
-            throw new DaoException();
+            throw new DaoException(throwables);
         }
     }
 }

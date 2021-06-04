@@ -76,6 +76,28 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.13</version>
         </dependency>
-
     </dependencies>
+
+    <build>
+
+        <plugins>
+
+            <!-- Maven JAR Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.example.ApiCard</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
 </project>

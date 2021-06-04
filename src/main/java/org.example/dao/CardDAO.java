@@ -25,7 +25,6 @@ public class CardDAO implements IDAO<BankCard> {
         return builder.getConnection();
     }
 
-
     @Override
     public List<BankCard> getAll() throws DaoException {
         List<BankCard> bankCardList = new ArrayList<>();
@@ -43,6 +42,7 @@ public class CardDAO implements IDAO<BankCard> {
             resultSet.close();
             return bankCardList;
         } catch (SQLException throwables) {
+            logger.error(throwables.getMessage());
             throw new DaoException(throwables);
         }
     }
@@ -57,7 +57,8 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setDate(4, entity.getOpenDate());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
-            throw new DaoException();
+            logger.error(throwables.getMessage());
+            throw new DaoException(throwables);
         }
 
     }
@@ -69,7 +70,8 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setLong(1, entity.getIdCard());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
-            throw new DaoException();
+            logger.error(throwables.getMessage());
+            throw new DaoException(throwables);
         }
     }
 
@@ -93,7 +95,8 @@ public class CardDAO implements IDAO<BankCard> {
                 return null;
             }
         } catch (SQLException throwables) {
-            throw new DaoException();
+            logger.error(throwables.getMessage());
+            throw new DaoException(throwables);
         }
     }
 
@@ -112,7 +115,8 @@ public class CardDAO implements IDAO<BankCard> {
             bankCard.setOpenDate(resultSet.getDate("OPEN_DATE"));
             return bankCard;
         } catch (SQLException throwables) {
-            throw new DaoException();
+            logger.error(throwables.getMessage());
+            throw new DaoException(throwables);
         }
     }
 
@@ -128,7 +132,8 @@ public class CardDAO implements IDAO<BankCard> {
             preparedStatement.setLong(6, entity.getIdCard());
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
-            throw new DaoException();
+            logger.error(throwables.getMessage());
+            throw new DaoException(throwables);
         }
     }
 }

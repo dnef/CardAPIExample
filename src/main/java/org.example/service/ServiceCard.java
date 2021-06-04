@@ -32,7 +32,7 @@ public class ServiceCard {
             bankCard.setAccountNumberId(accountNumberId);
             cardDAO.add(bankCard);
         } catch (DaoException e) {
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
 
     }
@@ -46,7 +46,7 @@ public class ServiceCard {
                 resultBankCard.add(bankCard);
             }
         } catch (DaoException e) {
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
         return resultBankCard;
     }
@@ -59,7 +59,7 @@ public class ServiceCard {
             accountForCustomer.setBalance(balance);
             accountClientDAO.update(accountForCustomer);
         } catch (DaoException e) {
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
     }
 
@@ -67,7 +67,7 @@ public class ServiceCard {
         try {
             return accountClientDAO.getById(cardDAO.getByStringField(cartNumber).getAccountNumberId()).getBalance();
         } catch (DaoException e) {
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
     }
 
@@ -75,7 +75,7 @@ public class ServiceCard {
         try {
             return cardDAO.getByStringField(cartNumber);
         } catch (DaoException e) {
-            throw new ServiceException();
+            throw new ServiceException(e);
         }
     }
 
